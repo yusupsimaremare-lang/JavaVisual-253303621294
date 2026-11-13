@@ -2,9 +2,12 @@
 Pada sprint ini MainWindow naik dari v0.3 ke v0.4. Ditambahkan class AppTheme (package view) yang menjadi pusat warna, font, dan border, sehingga daftar karakter tampil sebagai kartu berwarna menurut role. Package model tidak berubah sama sekali.
 
 # Screenshot sebelum (v0.3) dan sesudah (v0.4)
-Sebelum (v0.3): 
+Sebelum (v0.3):
+
 ![alt text](tp10-sebelum-v03.png.png)
+
 Sesudah (v0.4):
+
 ![alt text](tp10-sesudah-v04.png.png)
 
 # Mengapa warna disimpan di AppTheme, bukan di Character
