@@ -16,7 +16,6 @@ Jendela dikecilkan sampai scrollbar tampak:
 
  # Tabel pengamatan resize (prediksi vs hasil)
  
-# Laporan Pengujian Layout MainWindow (Java Swing)
 
 Tabel berikut mendokumentasikan hasil pengujian perilaku komponen antarmuka (*User Interface*) ketika ukuran jendela aplikasi diubah-ubah (*resizing*).
 
