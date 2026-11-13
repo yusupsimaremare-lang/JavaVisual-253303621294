@@ -22,6 +22,7 @@ Main.java membuat CharacterManager dan mengisinya dengan lima karakter (Model). 
 | Gandalf | MAGE | 7, lalu diubah menjadi 10 | Level tinggi sehingga pengaruhnya pada rata-rata level terlihat jelas saat data diubah |
 
 # Struktur folder
+```text
 CharacterManager/
 │
 ├── src/
@@ -43,6 +44,7 @@ CharacterManager/
 ├── tp8-sebelum.png.png
 ├── tp8-sesudah.png.png
 └── README.md
+```
 
 # Analisis Bagian D TP8 (Google Docs)
 https://docs.google.com/document/d/1VVyV2-NQhEqBeKZ04fsFk877o1cU9Jlt/edit?usp=drive_link&ouid=117130834806065707688&rtpof=true&sd=true
