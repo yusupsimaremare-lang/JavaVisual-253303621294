@@ -1,60 +1,138 @@
+
 package com.unpri.charactermanager.view;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import java.awt.BorderLayout;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridLayout;
 import java.util.ArrayList;
+
+import javax.swing.BorderFactory;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+
 import com.unpri.charactermanager.model.Character;
 
-/**
- * Jendela utama aplikasi Character Manager - Sprint #3.
- */
 public class MainWindow extends JFrame {
 
     private JPanel mainPanel;
     private ArrayList<Character> characterList;
     private double averageLevel;
 
-    public MainWindow(ArrayList<Character> characterList, double averageLevel) {
-        super("Character Manager v0.3");
+    // Batas level tinggi
+    private static final int HIGH_LEVEL_THRESHOLD = 8;
+
+    public MainWindow(ArrayList<Character> characterList,
+                      double averageLevel) {
+
+        super("Character Manager v0.4");
+
         this.characterList = characterList;
         this.averageLevel = averageLevel;
 
         initComponents();
 
-        setSize(500, 450);
+        setSize(450, 500);
+        setMinimumSize(new Dimension(420, 360));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+        setResizable(false);
     }
 
     private void initComponents() {
-        mainPanel = new JPanel();
-        mainPanel.setLayout(new BorderLayout());
 
-        StringBuilder sb = new StringBuilder();
-        // Ukuran font sedikit lebih besar dan rata kiri, tanpa padding berlebih
-        sb.append("<html><div style='font-family: Arial; font-size: 13pt; text-align: left; padding: 20px;'>");
-        
-        // Judul (posisi normal seperti semula)
-        sb.append("=== Daftar Karakter ===<br><br>");
+        mainPanel = new JPanel(new GridLayout(0, 1, 0, 8));
 
-        // Looping setiap karakter dengan tambahan jarak (<br><br>) di setiap akhir baris karakter
+        mainPanel.setBackground(AppTheme.BG_MAIN);
+
+        mainPanel.setBorder(
+            BorderFactory.createEmptyBorder(16, 16, 16, 16)
+        );
+
+        mainPanel.add(createTitleLabel());
+
+        // Menampilkan karakter secara dinamis
         for (Character c : characterList) {
-            sb.append(c.getName()).append(" (")
-              .append(c.getType()).append(") - Level ")
-              .append(c.getLevel()).append(" | HP: ")
-              .append(c.getHitPoints()).append(" | ATK: ")
-              .append(c.getAttackPower()).append("<br><br>"); // Diberi jarak antar data karakter
+            mainPanel.add(createCharacterLabel(c));
         }
 
-        // Statistik rata-rata level di bagian bawah (posisi normal seperti semula)
-        sb.append("Rata-rata Level: ").append(String.format("%.2f", averageLevel));
-        sb.append("</div></html>");
-
-        JLabel contentLabel = new JLabel(sb.toString());
-        mainPanel.add(contentLabel, BorderLayout.NORTH);
+        mainPanel.add(createFooterLabel());
 
         add(mainPanel);
+    }
+
+    // Judul aplikasi
+    private JLabel createTitleLabel() {
+
+        JLabel lbl = new JLabel(
+            "Daftar Karakter (" + characterList.size() + ")",
+            SwingConstants.CENTER
+        );
+
+        lbl.setFont(AppTheme.FONT_TITLE);
+        lbl.setForeground(AppTheme.TEXT_MAIN);
+
+        return lbl;
+    }
+
+    // Tampilan setiap karakter
+    private JLabel createCharacterLabel(Character c) {
+
+        String info = c.getName()
+                    + " | " + c.getType()
+                    + " | Lv." + c.getLevel()
+                    + " | HP:" + c.getHitPoints()
+                    + " | ATK:" + c.getAttackPower();
+
+        JLabel lbl = new JLabel(info);
+
+        lbl.setBackground(AppTheme.colorFor(c.getType()));
+        lbl.setOpaque(true);
+        lbl.setBorder(AppTheme.CARD_BORDER);
+
+        String tooltipText =
+            AppTheme.describe(c.getType())
+            + " (HP: " + c.getHitPoints()
+            + ", ATK: " + c.getAttackPower() + ")";
+
+        lbl.setToolTipText(tooltipText);
+
+        lbl.setCursor(
+            Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)
+        );
+
+        // Karakter dengan level tinggi
+        if (c.getLevel() >= HIGH_LEVEL_THRESHOLD) {
+
+            lbl.setForeground(AppTheme.GOLD);
+
+            lbl.setFont(
+                AppTheme.FONT_BODY.deriveFont(Font.BOLD)
+            );
+
+        } else {
+
+            lbl.setForeground(AppTheme.TEXT_LIGHT);
+            lbl.setFont(AppTheme.FONT_BODY);
+        }
+
+        return lbl;
+    }
+
+    // Statistik rata-rata level
+    private JLabel createFooterLabel() {
+
+        JLabel lbl = new JLabel(
+            "Rata-rata Level: "
+            + String.format("%.2f", averageLevel).replace('.', ','),
+            SwingConstants.CENTER
+        );
+
+        lbl.setFont(AppTheme.FONT_MONO);
+        lbl.setForeground(AppTheme.TEXT_MAIN);
+
+        return lbl;
     }
 }
