@@ -15,7 +15,8 @@ Jendela dikecilkan sampai scrollbar tampak:
 ![alt text](tp12-kecil.png.png)
 
  # Tabel pengamatan resize (prediksi vs hasil)
- # Laporan Pengujian Layout MainWindow (Java Swing)
+ 
+# Laporan Pengujian Layout MainWindow (Java Swing)
 
 Tabel berikut mendokumentasikan hasil pengujian perilaku komponen antarmuka (*User Interface*) ketika ukuran jendela aplikasi diubah-ubah (*resizing*).
 
@@ -24,12 +25,13 @@ Tabel berikut mendokumentasikan hasil pengujian perilaku komponen antarmuka (*Us
 | **Jendela dilebarkan** | Hanya wilayah **CENTER** yang ikut melebar. Legenda (**EAST**) tetap selebar isinya, sedangkan header dan bar status memanjang mengikuti lebar jendela. | Jendela dapat ditarik melebar ke kanan dan ke kiri, serta dapat di-*maximize*. Daftar kartu di tengah ikut melebar mengisi ruang tambahan, sementara legenda tetap berukuran sama dan header serta bar status memanjang. Hasilnya sesuai prediksi[cite: 3]. |
 | **Jendela ditinggikan** | Wilayah **CENTER** bertambah tinggi. Kartu tidak melar karena grid kartu berada di **NORTH** panel `holder`, dan legenda tetap menempel di atas. | Jendela dapat ditarik ke atas dan ke bawah. Area daftar bertambah tinggi, kartu tetap pada tinggi alaminya dengan ruang kosong di bawahnya, dan legenda tetap di bagian atas. Hasilnya sesuai prediksi[cite: 3]. |
 | **Tinggi dikecilkan** | Scrollbar muncul atau bertambah panjang di area daftar, sedangkan header dan bar status tetap terlihat. | Ketika tinggi dikecilkan, daftar karakter dapat digeser naik-turun dengan scrollbar sehingga seluruh karakter tetap bisa dilihat, dan header serta bar status tetap tampil. Hasilnya sesuai prediksi[cite: 3]. |
-| **Disempitkan sampai batas** | Jendela berhenti mengecil pada ukuran minimum 560 x 380 karena `setMinimumSize`. | Jendela berhenti mengecil pada ukuran minimum dan tidak bisa diperbesar/diperkecil lagi, sehingga tampilan tidak terpotong. Hasilnya sesuai prediksi[cite: 3]. | 
+| **Disempitkan sampai batas** | Jendela berhenti mengecil pada ukuran minimum 560 x 380 karena `setMinimumSize`. | Jendela berhenti mengecil pada ukuran minimum dan tidak bisa diperbesar/diperkecil lagi, sehingga tampilan tidak terpotong. Hasilnya sesuai prediksi[cite: 3]. |
 
 Kesimpulannya, tata letak BorderLayout bekerja sesuai rancangan: hanya CENTER yang menyerap perubahan ukuran, area lain mempertahankan ukurannya, dan JScrollPane menjaga seluruh karakter tetap dapat diakses ketika ruang tidak cukup.|
 
 # Struktur panel bersarang
 MainWindow memakai BorderLayout dengan empat wilayah, dan setiap wilayah berisi panel yang tersusun bersarang. NORTH berisi panel pembungkus top yang memuat header (judul di kiri, jumlah karakter di kanan) dan panel statistik GridLayout 2x2. CENTER berisi JScrollPane yang membungkus panel holder, dan di NORTH holder ada panel cards ber- GridLayout yang menampung kartu karakter. EAST berisi legenda BoxLayout vertikal yang diturunkan dari CharacterType.values(), dan SOUTH berisi bar status dengan teks di kiri dan versi di kanan.
+```text
 MainWindow (JFrame, BorderLayout)
 ├── NORTH  : top (JPanel, BorderLayout)
 │   ├── NORTH  : header (BorderLayout)  judul WEST, jumlah EAST
@@ -39,6 +41,7 @@ MainWindow (JFrame, BorderLayout)
 │       └── NORTH : cards (GridLayout 0x1) -> kartu JLabel
 ├── EAST   : legend (BoxLayout Y_AXIS) -> strut, chip per role, glue
 └── SOUTH  : status (BorderLayout)  teks WEST, versi EAST
+```
 
 # panel tambahan: statistik GridLayout 2x2
 Panel statistik (total karakter, rata-rata level, level tertinggi, jumlah karakter level tinggi) saya taruh di bawah header. Saya memilih GridLayout 2x2 karena keempat statistik setara dan sebaiknya berukuran seragam, serta tetap tersusun dua kolom saat jendela dilebarkan. Layout yang saya tolak:
