@@ -22,7 +22,6 @@ CharacterManager/
 └── README.md
 ```
 
-
 ## Identitas
 Nama: Yusup Simbur Aritonang
 NIM: 253303621294  
