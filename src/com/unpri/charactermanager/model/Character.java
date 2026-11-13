@@ -2,7 +2,9 @@
 package com.unpri.charactermanager.model;
 
 public class Character {
-public static final int HIGH_LEVEL_THRESHOLD = 8;
+
+    public static final int HIGH_LEVEL_THRESHOLD = 5;
+
     private int id;
     private String name;
     private CharacterType type;

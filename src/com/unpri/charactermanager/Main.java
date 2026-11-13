@@ -1,10 +1,10 @@
 
 package com.unpri.charactermanager;
 
+import java.util.ArrayList;
 import javax.swing.SwingUtilities;
 
 import com.unpri.charactermanager.model.Character;
-import com.unpri.charactermanager.model.CharacterManager;
 import com.unpri.charactermanager.model.CharacterType;
 import com.unpri.charactermanager.view.MainWindow;
 
@@ -12,45 +12,37 @@ public class Main {
 
     public static void main(String[] args) {
 
-        // Membuat Character Manager
-        CharacterManager manager = new CharacterManager();
+        ArrayList<Character> characters = new ArrayList<>();
 
-        // Menambahkan 7 karakter
-        manager.addCharacter(
-            new Character("Arjuna", CharacterType.WARRIOR, 5)
-        );
+        // Data karakter
+        characters.add(new Character(
+            "Arjuna", CharacterType.WARRIOR, 5));
 
-        manager.addCharacter(
-            new Character("Merlin", CharacterType.MAGE, 3)
-        );
+        characters.add(new Character(
+            "Merlin", CharacterType.MAGE, 3));
 
-        manager.addCharacter(
-            new Character("Athena", CharacterType.ARCHER, 4)
-        );
+        characters.add(new Character(
+            "Athena", CharacterType.ARCHER, 4));
 
-        manager.addCharacter(
-            new Character("Elara", CharacterType.HEALER, 2)
-        );
+        characters.add(new Character(
+            "Elara", CharacterType.HEALER, 2));
 
-        manager.addCharacter(
-            new Character("Gandalf", CharacterType.MAGE, 10)
-        );
+        characters.add(new Character(
+            "Gandalf", CharacterType.MAGE, 10));
 
-        manager.addCharacter(
-            new Character("Gatotkaca", CharacterType.WARRIOR, 7)
-        );
+        characters.add(new Character(
+            "Gatotkaca", CharacterType.WARRIOR, 7));
 
-        manager.addCharacter(
-            new Character("Morgana", CharacterType.MAGE, 1)
-        );
+        characters.add(new Character(
+            "Thor", CharacterType.TANK, 5));
 
-        // Menjalankan GUI
+        characters.add(new Character(
+            "Robin", CharacterType.ARCHER, 2));
+
+        // Jalankan aplikasi
         SwingUtilities.invokeLater(() -> {
 
-            MainWindow window = new MainWindow(
-                manager.getAllCharacters(),
-                manager.getAverageLevel()
-            );
+            MainWindow window = new MainWindow(characters);
 
             window.setVisible(true);
 
