@@ -19,6 +19,7 @@ getTypeSummary() merangkum jumlah karakter untuk setiap tipe (WARRIOR, MAGE, ARC
 
 
 ## 📁 Struktur Folder Proyek (Sprint 2 - AP5 / TP5)
+~~~ text
 CharacterManager/
 │
 ├── src/
@@ -35,6 +36,7 @@ CharacterManager/
 ├── output-tp5.png.png 
 ├── output.png.png
 └── README.md
+~~~
 
 ## Analisis Bagian D TP5 (Google Docs)
 https://docs.google.com/document/d/1bX8w3dHeUzEQibdBbcHX1SleiSKkEmSj/edit?usp=drive_link&ouid=117130834806065707688&rtpof=true&sd=true
