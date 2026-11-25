@@ -139,3 +139,4 @@ Nama: Yusup Simbur Aritonang
 NIM: 253303621294
 
 ## Analisis Input & Validasi (Google Docs):
+https://docs.google.com/document/d/1mDOFFqW7doz9M7d4kjzCVR6kysfauXdG/edit?usp=drive_link&ouid=117130834806065707688&rtpof=true&sd=true
