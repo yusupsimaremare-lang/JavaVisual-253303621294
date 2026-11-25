@@ -1,32 +1,43 @@
 package com.unpri.charactermanager.model;
 
-/**
- * Merepresentasikan satu karakter dalam aplikasi Character Manager.
- * Menerapkan prinsip Encapsulation: semua atribut private,
- * akses hanya melalui getter/setter.
- */
 public class Character {
-
-    // ===== ATRIBUT (private — tidak bisa diakses langsung dari luar class) =====
     private int id;
     private String name;
     private CharacterType type;
     private int level;
     private int hitPoints;
     private int attackPower;
+    private int mana;
 
-    // ===== CONSTRUCTOR 1: untuk membuat karakter BARU =====
-    // Dipakai saat user membuat karakter dari form (belum punya id dari database)
+    // STATIC: dimiliki bersama oleh semua object Character
+    private static int totalCharacterCreated = 0;
+
+    // Constructor 1: karakter BARU (statistik dihitung otomatis, id dari counter)
     public Character(String name, CharacterType type, int level) {
-        this.name = name;              // "this" merujuk ke atribut milik object ini
+        
+        this.name = name;
         this.type = type;
         this.level = level;
-        this.hitPoints = calculateBaseHP();      // HP dihitung otomatis dari level
-        this.attackPower = calculateBaseAttack(); // Attack dihitung otomatis dari level
+        if (name == null || name.isBlank()) {                       // aturan 1: nama wajib
+        throw new IllegalArgumentException("Nama tidak boleh kosong");
+    }
+    if (type == null) {                                         // aturan 2: role wajib
+        throw new IllegalArgumentException("Role wajib dipilih");
+    }
+    if (level < 1 || level > 99) {                              // aturan 3: rentang level
+        throw new IllegalArgumentException("Level harus 1-99");
+    }
+    // ... baris inisialisasi field yang SUDAH ADA (this.name = name; dst.) tetap di bawah ini
+    if (type == CharacterType.MAGE && level > 60) {
+    throw new IllegalArgumentException("Level MAGE maksimal 60");
+    }
+        this.hitPoints = calculateBaseHP();
+        this.attackPower = calculateBaseAttack();
+        totalCharacterCreated++;
+        this.id = totalCharacterCreated;
     }
 
-    // ===== CONSTRUCTOR 2: untuk MEMUAT karakter dari database =====
-    // Dipakai saat data sudah ada (id dan statistik sudah final dari DB)
+    // Constructor 2: MEMUAT karakter dari database (id dan statistik sudah ada)
     public Character(int id, String name, CharacterType type, int level, int hitPoints, int attackPower) {
         this.id = id;
         this.name = name;
@@ -36,37 +47,60 @@ public class Character {
         this.attackPower = attackPower;
     }
 
-    // ===== HELPER PRIVATE: hanya dipakai internal class ini =====
     private int calculateBaseHP() {
-        return 100 + (level * 10);   // contoh: level 5 → HP = 150
+        return 100 + (level * 10);
     }
 
     private int calculateBaseAttack() {
-        return 10 + (level * 5);     // contoh: level 5 → Attack = 35
+        return 10 + (level * 5);
     }
-      // ===== GETTER: cara AMAN membaca nilai atribut private dari luar =====
+
     public int getId() { return id; }
     public String getName() { return name; }
     public CharacterType getType() { return type; }
     public int getLevel() { return level; }
     public int getHitPoints() { return hitPoints; }
     public int getAttackPower() { return attackPower; }
+    public int getMana() { return mana; }
 
-    // ===== SETTER: cara AMAN mengubah atribut, dengan VALIDASI =====
-    public void setId(int id) {
-        this.id = id;
-    }
+    public void setId(int id) { this.id = id; }
 
     public void setLevel(int level) {
-        if (level < 1) {                       // validasi: level tidak boleh kurang dari 1
+        if (level < 1) {
             throw new IllegalArgumentException("Level minimal adalah 1");
         }
         this.level = level;
-        this.hitPoints = calculateBaseHP();      // statistik dihitung ULANG setiap level berubah
+        this.hitPoints = calculateBaseHP();
         this.attackPower = calculateBaseAttack();
     }
 
-    // ===== toString(): representasi teks object, berguna untuk debugging =====
+    public void setMana(int mana) {
+        if (mana < 0) {
+            throw new IllegalArgumentException("Mana tidak boleh negatif");
+        }
+        this.mana = mana;
+    }
+
+    public boolean isAlive() {
+        return hitPoints > 0;
+    }
+
+    public static int getTotalCharacterCreated() {
+        return totalCharacterCreated;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Character)) return false;
+        Character other = (Character) obj;
+        return this.name.equals(other.name);   // dianggap sama jika namanya identik
+    }
+
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(name);
+    }
+
     @Override
     public String toString() {
         return "Character{id=" + id +
@@ -74,7 +108,7 @@ public class Character {
                ", type=" + type +
                ", level=" + level +
                ", hp=" + hitPoints +
-               ", atk=" + attackPower + '}';
+               ", atk=" + attackPower +
+               ", mana=" + mana + '}';
     }
-
-}   // kurung kurawal penutup CLASS Character — pastikan jumlah buka/tutup seimbang!
+}
